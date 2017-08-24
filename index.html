@@ -1,3 +1,32 @@
+techChase.html
+DETAILS
+ACTIVITY
+techChase.html
+Sharing Info
+Not shared
+General Info
+Type
+HTML
+Size
+11 KB (11,086 bytes)
+Storage used
+21 KB (21,926 bytes)
+Location
+Tech Chase
+Owner
+me
+Modified
+3:45 PM by me
+Opened
+3:45 PM by me
+Created
+Aug 22, 2017 with Google Drive Web
+Description
+Add a description
+Download permissions
+Viewers can download
+
+
 <!DOCTYPE html>
 <html>
 
@@ -111,30 +140,32 @@
 		.nav-sub-text{
 			font-size: 1.6rem;
 		}
+		.custom-toggler.navbar-toggler {
+			border-color: #AB9FE5;
+		}
+		.custom-toggler .navbar-toggler-icon {
+			background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(171,159,229, 0.7)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+		}
+		
+		
 		
 	</style>
 </head>
 
 <body>
-	<nav class="navbar navbar-expand-lg navbar-light" style="background-color:#140326" >
+	<nav class="navbar navbar-expand-lg navbar-light" style="background-color:#1f033d" >
 	  <a class="navbar-brand" href="#">
 		<img src="techLogoClear.png" height="56" width="99"></img>
 		<img src="Project Movement TEXT.png" height="50" width="405.77689243"></img>
 	  </a>
-	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	  <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	  </button>
 
 	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav mr-auto">
-		  <li class="nav-item active">
-			<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-		  </li>
 		  <li class="nav-item">
-			<a class="nav-link" href="#">Link</a>
-		  </li>
-		  <li class="nav-item">
-			<a class="nav-link disabled" href="#">Disabled</a>
+			<a class="nav-link gothic"  style="color:white;" href="#instructions">Instructions</a>
 		  </li>
 		</ul>
 		<form class="form-inline my-2 my-lg-0 ">
@@ -156,7 +187,7 @@
 			</div>
 		</div>
 		<div class="bottom">
-			<div class = "info center">
+			<div  id="instructions" class ="info center">
 				<h1 class="gothic"> INSTRUCTIONS </h1>
 				<p> Select a character </p>
 				<p> Use the arrow keys to react to their tech options </p>
@@ -231,7 +262,7 @@
 			{
 				for (var i = 0; i < 4; i++)
 				{
-					techs[i] = URL.revokeObjectURL(techs[i]);
+					URL.revokeObjectURL(techs[i]);
 				}
 			}
 			currentChar = character;
