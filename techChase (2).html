@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="content-type" content="text/html" charset="UTF-8"></meta>
+	<style type="text/css">
+		.center{
+			text-align: center;
+		}
+		body{
+			background-color: #6A809E;
+		}
+		video {
+			width: 600px;
+			height: 450px;
+			border: 1px solid black;
+			border-radius: 5px;
+		}
+		.charButton {
+			width: 40px;
+			height: 40px;
+			margin: 0;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="buttonContainer" class="center">
+	</div>
+	<div class="center">
+		<video id="screen" src="clear.gif"></video>
+	</div>
+	
+	
+	<script>
+	var chars=["wario","mario", "luigi","peach","bowser","br"]
+	function loadButtons(characters){
+		var container= document.getElementById("buttonContainer");
+		var btnList = []
+		for (var i=0;i<characters.length;i++){
+			if (characters[i]=="br"){
+				container.appendChild(document.createElement("br"));
+				continue;
+			} 
+			btnList[i]= document.createElement("button");
+			btnList[i].id=characters[i];
+			btnList[i].innerhtml=characters[i];
+			btnList[i].classList.add("charButton");
+			btnList[i].onclick=function(){loadSet(this.id);}
+			container.appendChild(btnList[i]);
+		}
+	}
+	/*
+		function charButton(character){
+			this.character = character;
+		}
+		charButton.functions= {
+			
+		} */
+		
+		/*
+		Types: 0: tm, 1: tl, 2: tr, 3: tu
+		
+		*/
+		function preloadBlob(loadCount,target,type)
+		{
+			console.log(target.response);
+				if (target.status === 200) {
+					var videoBlob = target.response;
+					var vid = URL.createObjectURL(videoBlob); // IE10+
+					// Video is now downloaded
+					// and we can set it as source on the video element
+					loadCount++;
+					techs[type]=vid;
+					if (loadCount==4)
+					{
+						triggerReady();
+					}
+					return loadCount;
+				}
+		}
+		function loadSet(character)
+		{
+			console.log("Loading " + character);
+			var techMiss=new XMLHttpRequest();
+			techMiss.open('GET',character+'tm.mp4',true)
+			techMiss.responseType = 'blob';
+			var loadCount = 0;
+			techMiss.onload=function(){loadCount = preloadBlob(loadCount,this,0);}
+			techMiss.send();
+			
+			var techLeft=new XMLHttpRequest();
+			techLeft.open('GET',character+'tl.mp4',true)
+			techLeft.responseType = 'blob';
+			techLeft.onload=function(){loadCount = preloadBlob(loadCount,this,1);}
+			techLeft.send();
+			
+			var techRight=new XMLHttpRequest();
+			techRight.open('GET',character+'tr.mp4',true)
+			techRight.responseType = 'blob';
+			techRight.onload=function(){loadCount = preloadBlob(loadCount,this,2);}
+			techRight.send();
+			
+			var techUp=new XMLHttpRequest();
+			techUp.open('GET',character+'tu.mp4',true)
+			techUp.responseType = 'blob';
+			techUp.onload=function(){loadCount = preloadBlob(loadCount,this,3);}
+			techUp.send();
+			//var loadCount= 0;
+			/*for(var i=0; i<4;i++){
+				techs[i].onload=function(){
+					loadCount++;	
+					if (loadCount==4){
+						triggerReady(techs);
+					}
+				}; 
+			} */
+	//		techLeft.src=character+"tl.jpg";
+//			techRight.src=character+"tr.jpg";
+//			techUp.src=character+"tu.jpg";
+	//		techMiss.src=character+"tm.avi";
+		}
+		function triggerReady(){
+			document.addEventListener('keydown',function(event){
+				if([32, 37, 38, 39, 40].indexOf(event.keyCode) > -1) {
+					event.preventDefault();
+				}
+				checkKey(event.keyCode,currentKey);
+				var endTime = new Date().getTime();
+				console.log(endTime-startTime);
+			},false);
+			var selection=Math.floor(Math.random()*4);
+			var startTime = new Date().getTime();
+			screen.src=techs[selection];
+			switch(selection)
+			{
+				case 0:
+					currentKey = 40;
+					break;
+				case 1:
+					currentKey = 37;
+					break;
+				case 2:
+					currentKey = 39;
+					break;
+				case 3:
+					currentKey = 38;
+					break;
+			}
+			screen.play();
+		}
+		
+		function checkKey(keyCode, want){
+			if (keyCode == want){
+				console.log("Success");
+			}
+		}
+		var currentKey = null;
+		var techs = [];
+		loadButtons(chars);
+		var screen = document.getElementById("screen");
+		var toDownload = new Image();
+		toDownload.onload = function(){
+			screen.src=this.src;
+		};
+		toDownload.src="wallpaper.jpg";
+		var intendedKey=37;
+		var bgColor="#409BB5";
+
+
+		
+	</script>
+	
+</body>
+
+</html>

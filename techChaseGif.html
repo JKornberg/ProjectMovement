@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="content-type" content="text/html" charset="UTF-8"></meta>
+	<style type="text/css">
+		.center{
+			text-align: center;
+		}
+		body{
+			background-color: #6A809E;
+		}
+		img {
+			width: 600px;
+			height: 450px;
+			border: 1px solid black;
+			border-radius: 5px;
+		}
+		.charButton {
+			width: 40px;
+			height: 40px;
+			margin: 0;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="buttonContainer" class="center">
+	</div>
+	<div class="center">
+		<img id="screen" src="clear.gif">
+	</div>
+	
+	
+	<script>
+	var chars=["wario","mario", "luigi","peach","bowser","br"]
+	function loadButtons(characters){
+		var container= document.getElementById("buttonContainer");
+		var btnList = []
+		for (var i=0;i<characters.length;i++){
+			if (characters[i]=="br"){
+				container.appendChild(document.createElement("br"));
+				continue;
+			} 
+			btnList[i]= document.createElement("button");
+			btnList[i].id=characters[i];
+			btnList[i].innerhtml=characters[i];
+			btnList[i].classList.add("charButton");
+			btnList[i].onclick=function(){loadSet(this.id);}
+			container.appendChild(btnList[i]);
+		}
+	}
+	/*
+		function charButton(character){
+			this.character = character;
+		}
+		charButton.functions= {
+			
+		} */
+		function loadSet(character)
+		{
+			console.log("Loading " + character);
+			var techLeft=new Image();
+			var techRight= new Image();
+			var techUp=new Image();
+			var techMiss=new Image();
+			var techs= [techLeft, techRight, techUp, techMiss];
+			var loadCount= 0;
+			for(var i=0; i<4;i++){
+				techs[i].onload=function(){
+					loadCount++;
+					if (loadCount==4){
+						triggerReady(techs);
+					}
+				};
+			}
+			techLeft.src=character+"tl.jpg";
+			techRight.src=character+"tr.jpg";
+			techUp.src=character+"tu.jpg";
+			techMiss.src=character+"tm.jpg";
+		}
+		function triggerReady(techs){
+			document.addEventListener('keydown',function(event){
+				if([32, 37, 38, 39, 40].indexOf(event.keyCode) > -1) {
+					event.preventDefault();
+				}
+				checkKey(event.keyCode,intendedKey);
+				var endTime = new Date().getTime();
+				console.log(endTime-startTime);
+			},false);
+			var selection=Math.floor(Math.random()*4);
+			var startTime = new Date().getTime();
+			playGame(techs[selection]);
+		}
+		function playGame(tech){
+			console.log("playing game");
+			screen.src=tech.src;
+		}
+		
+		function checkKey(keyCode, want){
+			if (keyCode == want){
+				console.log("Success");
+			}
+		}
+		
+
+		loadButtons(chars);
+		var screen = document.getElementById("screen");
+		var toDownload = new Image();
+		toDownload.onload = function(){
+			screen.src=this.src;
+		};
+		toDownload.src="wallpaper.jpg";
+		var intendedKey=37;
+		var bgColor="#409BB5";
+
+
+		
+	</script>
+	
+</body>
+
+</html>

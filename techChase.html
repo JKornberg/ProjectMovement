@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="content-type" content="text/html" charset="UTF-8"></meta>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+
+	<style type="text/css">
+
+		.gothic { 
+			font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif; 
+			font-weight: bold;
+
+		}
+		.center{
+			margin: 0 auto;
+			text-align: center;
+		}
+		.pushDown{
+			padding-top: 150px;
+		}
+		.stacked{
+		position: absolute;
+		margin-left: auto;
+		margin-right: auto;
+		left: 0;
+		right: 0;
+		}
+		body{
+			font-family: calibri;
+			background-color: #030426;
+			padding: 0 !important;
+			margin: 0 !important;
+		}
+		video {
+			width: 701px;
+			height: 403PX;
+		}
+		.charButton {
+			width: 125px;
+			height: 125px;
+			margin: 10px;
+			border: 1px solid;
+			border-color: #AB9FE5;
+		}
+		#buttonContainer {
+			width: 80%;
+			margin-bottom: 20px;
+		}
+		#player{
+			width: 703px;
+			height: 405px;
+			margin: 0 auto;
+			background-color: #383742;
+			border: 1px solid;
+			border-color: #AB9FE5;
+		}
+		#video_overlays {
+		display: table;
+		float:left;
+		width: 703px ;
+		height: 405px;
+		z-index:300000;
+		background-color: rgba(255,255,255,.7);
+		}
+		#video_overlays {
+		visibility: hidden;
+		}
+		.vCenter {
+			display: table-cell;
+			vertical-align: middle;
+			}
+		h1{
+			color: #7467b8;
+			font-size: 2.5rem;
+			margin: 0;
+		}
+		h2 {
+			color: #7467b8;
+		}
+
+		.stroke{
+		/*	text-shadow:
+				-1px -1px 0 #1170FF,  
+				 1px -1px 0 #1170FF,
+				-1px  1px 0 #1170FF,
+				 1px  1px 0 #1170FF;
+		*/
+		}
+		
+		.info{
+			background-color: #AB9FE5;
+			width: 40%;
+			font-size: 20pt;
+			margin-top: 20px;
+			padding: 20px;
+			border-radius: 5px;
+			box-shadow: 10px 15px 10px rgba(0,0,0,.3);
+		}
+		p {
+			margin: 0;
+		}
+		.bottom{
+			background-color: #383742;
+			padding: 20px;
+			margin-top: 60px;
+		}
+
+
+	
+		.nav-sub-text{
+			font-size: 1.6rem;
+		}
+		
+	</style>
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light" style="background-color:#140326" >
+	  <a class="navbar-brand" href="#">
+		<img src="techLogoClear.png" height="56" width="99"></img>
+		<img src="Project Movement TEXT.png" height="50" width="405.77689243"></img>
+	  </a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	  </button>
+
+	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav mr-auto">
+		  <li class="nav-item active">
+			<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="#">Link</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link disabled" href="#">Disabled</a>
+		  </li>
+		</ul>
+		<form class="form-inline my-2 my-lg-0 ">
+		  <h2 class="gothic nav-sub-text">A TECH CHASE TRAINER FOR PROJECT M</h2>
+		</form>
+	  </div>
+	</nav>
+	<div class="center pushDown">
+	<div id="buttonContainer" class="center">
+	</div>
+		<div id="player">
+			<video id="screen" class="stacked" src="clear.gif"></video>
+			<img class="overlay stacked" id="cover" src="ScreenCover.png" height="403" width="701">
+			<div id="video_overlays" class="stacked">
+				<div class = "vCenter">
+					<h1 id = "result"> Incorrect </h1>
+					<p id = "details"> Press [space] to try again </p>
+				</div>
+			</div>
+		</div>
+		<div class="bottom">
+			<div class = "info center">
+				<h1 class="gothic"> INSTRUCTIONS </h1>
+				<p> Select a character </p>
+				<p> Use the arrow keys to react to their tech options </p>
+				<p> ↑ - Tech in Place </p>
+				<p> ←→ - Tech left/right </p>
+				<p> ↓ - Miss tech </p>
+			</div>
+		</div>
+	</div>
+	</div>
+
+	
+	<script>
+	var chars=["wario","wolf", "gnw"];
+	var player = document.getElementById("player")
+	function addText(text)
+	{
+	}
+	
+	function loadButtons(characters){
+		var container= document.getElementById("buttonContainer");
+		var btnList = []
+		for (var i=0;i<characters.length;i++){
+			if (characters[i]=="br"){
+				container.appendChild(document.createElement("br"));
+				continue;
+			} 
+			btnList[i]= document.createElement("button");
+			btnList[i].id=characters[i];
+			btnList[i].innerhtml=characters[i];
+			btnList[i].classList.add("charButton");
+			btnList[i].onclick=function(){loadSet(this.id);}
+			btnList[i].style.background = "#383742 url("+characters[i]+"Face.png)";
+			container.appendChild(btnList[i]);
+		}
+	}
+	/*
+		function charButton(character){
+			this.character = character;
+		}
+		charButton.functions= {
+			
+		} */
+		
+		/*
+		Types: 0: tm, 1: tl, 2: tr, 3: tu
+		
+		*/
+		function preloadBlob(loadCount,target,type)
+		{
+			if (target.status === 200) {
+				var videoBlob = target.response;
+				var vid = URL.createObjectURL(videoBlob); // IE10+
+				// Video is now downloaded
+				// and we can set it as source on the video element
+				loadCount++;
+				techs[type]=vid;
+				if (loadCount==4)
+				{
+					haveTechs = true;
+					loadAndPlay();
+				}
+				return loadCount;
+			}
+		}
+		function loadSet(character)
+		{	
+			resetVars();
+			overlay.style.visibility = "hidden";
+			cover.style.visibility = "hidden";
+			if (haveTechs)
+			{
+				for (var i = 0; i < 4; i++)
+				{
+					techs[i] = URL.revokeObjectURL(techs[i]);
+				}
+			}
+			currentChar = character;
+			console.log("Loading " + character);
+			var techMiss=new XMLHttpRequest();
+			techMiss.open('GET',character+'tm.mp4',true)
+			techMiss.responseType = 'blob';
+			var loadCount = 0;
+			techMiss.onload=function(){loadCount = preloadBlob(loadCount,this,0);}
+			techMiss.send();
+			
+			var techLeft=new XMLHttpRequest();
+			techLeft.open('GET',character+'tl.mp4',true)
+			techLeft.responseType = 'blob';
+			techLeft.onload=function(){loadCount = preloadBlob(loadCount,this,1);}
+			techLeft.send();
+			
+			var techRight=new XMLHttpRequest();
+			techRight.open('GET',character+'tr.mp4',true)
+			techRight.responseType = 'blob';
+			techRight.onload=function(){loadCount = preloadBlob(loadCount,this,2);}
+			techRight.send();
+			
+			var techUp=new XMLHttpRequest();
+			techUp.open('GET',character+'tu.mp4',true)
+			techUp.responseType = 'blob';
+			techUp.onload=function(){loadCount = preloadBlob(loadCount,this,3);}
+			techUp.send();
+
+			//var loadCount= 0;
+			/*for(var i=0; i<4;i++){
+				techs[i].onload=function(){
+					loadCount++;	
+					if (loadCount==4){
+						triggerReady(techs);
+					}
+				}; 
+			} */
+	//		techLeft.src=character+"tl.jpg";
+//			techRight.src=character+"tr.jpg";
+//			techUp.src=character+"tu.jpg";
+	//		techMiss.src=character+"tm.avi";
+		}
+
+		
+		function loadAndPlay(){
+		var selection=Math.floor(Math.random()*4);
+		screen.src=techs[selection];
+		playing=true;
+			switch(selection)
+				{
+				case 0:
+					currentKey = 40;
+					break;
+				case 1:
+					currentKey = 37;
+					break;
+				case 2:
+					currentKey = 39;
+					break;
+				case 3:
+					currentKey = 38;
+					break;
+				}
+		currentTech = selection;
+		screen.play();
+		startTime = new Date().getTime();
+		}
+		
+		function getVidTime(){
+			 vidTime = new Date().getTime();
+			 haveVidTime = true;
+			 if (!scoreShown && haveEndTime)
+			 {
+				showScore();
+			 }
+		}
+		
+		function showScore(){
+			scoreShown = true;
+			console.log("Start: " + startTime);
+			console.log("End: " + endTime);
+			console.log("Vid: " + vidTime);
+			resText.innerHTML="Correct";
+			details.innerHTML= "You have approximately " + Math.round(((dictionary[currentChar] + ((vidTime-startTime)/1000)*60) - ((endTime-startTime)/1000)*60)) + " frames <br>Press [space] to play again!";
+			console.log(endTime-startTime);
+			overlay.style.visibility = "visible";
+			waiting = true;
+			playing = false;
+		}
+		
+		function checkKey(keyCode, want){
+			if (keyCode == want){
+				return true;
+			}
+		}
+		
+		function resetVars()	
+		{
+			haveEndTime = false;
+			haveVidTime = false;
+			scoreShown = false;
+			waiting = false;
+			endTime = null;
+			startTime = null;
+			vidTime = null;
+		}
+		var vidTime;
+		var waiting = false;
+		var haveTechs = false;
+		var startTime;
+		var endTime;
+		var playing = false;
+		var currentKey = null;
+		var techs = [];
+		var currentTech;
+		var currentChar;
+		var dictionary = {};
+		var scoreShown = false;
+		var haveEndTime = false;
+		var haveVidTime = false;
+		dictionary["wario"] = 3;
+		dictionary["gnw"] = 3;
+		dictionary["wolf"] = 3;
+		//dictionary["wario"] = [50,61,61,47]
+		loadButtons(chars);
+		var score=document.getElementById("video_overlays");
+		var details=document.getElementById("details");
+		var screen = document.getElementById("screen");
+		var resText = document.getElementById("result");
+		var overlay = document.getElementById("video_overlays");
+		var cover = document.getElementById("cover");
+		var toDownload = new Image();
+		toDownload.onload = function(){
+			screen.src=this.src;
+		};
+		screen.addEventListener('ended',getVidTime,false);
+		toDownload.src="wallpaper.jpg";
+		var intendedKey=37;
+		var bgColor="#409BB5";
+		document.addEventListener('keydown',function(event){
+			if([32, 37, 38, 39, 40].indexOf(event.keyCode) > -1) {
+				event.preventDefault();
+			}
+			if(waiting&&event.keyCode==32)
+			{
+				overlay.style.visibility = "hidden";
+				loadAndPlay();
+				resetVars();
+			}
+			else if (checkKey(event.keyCode,currentKey)&&playing)  
+			{
+				endTime = new Date().getTime();
+				haveEndTime = true;
+				if (haveVidTime && !scoreShown)
+				{
+					showScore();
+				}
+			}
+			else if (!checkKey(event.keyCode,currentKey)&&playing) 
+			{
+				resText.innerHTML="Incorrect";
+				details.innerHTML= "Press [space] to play again.";
+				overlay.style.visibility = "visible";
+				waiting = true;
+				playing = false;
+				
+			}
+
+
+
+		},false);
+
+		
+	</script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+</body> 
+
+</html>
