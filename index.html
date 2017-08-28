@@ -120,7 +120,6 @@
 		}
 		
 		
-		
 	</style>
 </head>
 
@@ -191,7 +190,7 @@
 			btnList[i].id=characters[i];
 			btnList[i].innerhtml=characters[i];
 			btnList[i].classList.add("charButton");
-			btnList[i].onclick=function(){loadSet(this.id);}
+			btnList[i].onclick=function(){this.blur(); loadSet(this.id);}
 			btnList[i].style.background = "#383742 url("+characters[i]+"/"+characters[i]+"Face.png)";
 			container.appendChild(btnList[i]);
 		}
@@ -315,12 +314,11 @@
 		
 		function showScore(){
 			scoreShown = true;
-			console.log("Start: " + startTime);
+	/*		console.log("Start: " + startTime);
 			console.log("End: " + endTime);
-			console.log("Vid: " + vidTime);
+			console.log("Vid: " + vidTime); */
 			resText.innerHTML="Correct";
 			details.innerHTML= "You have approximately " + Math.round(((dictionary[currentChar] + ((vidTime-startTime)/1000)*60) - ((endTime-startTime)/1000)*60)) + " frames <br>Press [space] to play again!";
-			console.log(endTime-startTime);
 			overlay.style.visibility = "visible";
 			waiting = true;
 			playing = false;
@@ -368,12 +366,8 @@
 		var resText = document.getElementById("result");
 		var overlay = document.getElementById("video_overlays");
 		var cover = document.getElementById("cover");
-		var toDownload = new Image();
-		toDownload.onload = function(){
-			screen.src=this.src;
-		};
+
 		screen.addEventListener('ended',getVidTime,false);
-		toDownload.src="wallpaper.jpg";
 		var intendedKey=37;
 		var bgColor="#409BB5";
 		document.addEventListener('keydown',function(event){
