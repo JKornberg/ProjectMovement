@@ -173,7 +173,7 @@
 
 	
 	<script>
-	var chars=["wario","wolf", "gnw"];
+	var chars=["wario","wolf", "gnw","diddy"];
 	var player = document.getElementById("player")
 	function addText(text)
 	{
@@ -192,7 +192,7 @@
 			btnList[i].innerhtml=characters[i];
 			btnList[i].classList.add("charButton");
 			btnList[i].onclick=function(){loadSet(this.id);}
-			btnList[i].style.background = "#383742 url("+characters[i]+"Face.png)";
+			btnList[i].style.background = "#383742 url("+characters[i]+"/"+characters[i]+"Face.png)";
 			container.appendChild(btnList[i]);
 		}
 	}
@@ -240,26 +240,26 @@
 			currentChar = character;
 			console.log("Loading " + character);
 			var techMiss=new XMLHttpRequest();
-			techMiss.open('GET',character+'tm.mp4',true)
+			techMiss.open('GET',character+'/'+character+'tm.mp4',true)
 			techMiss.responseType = 'blob';
 			var loadCount = 0;
 			techMiss.onload=function(){loadCount = preloadBlob(loadCount,this,0);}
 			techMiss.send();
 			
 			var techLeft=new XMLHttpRequest();
-			techLeft.open('GET',character+'tl.mp4',true)
+			techLeft.open('GET',character+'/'+character+'tl.mp4',true)
 			techLeft.responseType = 'blob';
 			techLeft.onload=function(){loadCount = preloadBlob(loadCount,this,1);}
 			techLeft.send();
 			
 			var techRight=new XMLHttpRequest();
-			techRight.open('GET',character+'tr.mp4',true)
+			techRight.open('GET',character+'/'+character+'tr.mp4',true)
 			techRight.responseType = 'blob';
 			techRight.onload=function(){loadCount = preloadBlob(loadCount,this,2);}
 			techRight.send();
 			
 			var techUp=new XMLHttpRequest();
-			techUp.open('GET',character+'tu.mp4',true)
+			techUp.open('GET',character+'/'+character+'tu.mp4',true)
 			techUp.responseType = 'blob';
 			techUp.onload=function(){loadCount = preloadBlob(loadCount,this,3);}
 			techUp.send();
@@ -359,6 +359,7 @@
 		dictionary["wario"] = 3;
 		dictionary["gnw"] = 3;
 		dictionary["wolf"] = 3;
+		dictionary["diddy"] = 3;
 		//dictionary["wario"] = [50,61,61,47]
 		loadButtons(chars);
 		var score=document.getElementById("video_overlays");
