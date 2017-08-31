@@ -605,7 +605,7 @@
 				loadAndPlay();
 				resetVars();
 			}
-			else if (checkKey(event.keyCode,currentKey)&&playing&&waiting)  
+			else if (checkKey(event.keyCode,currentKey)&&playing)  
 			{
 				endTime = new Date().getTime();
 				haveEndTime = true;
@@ -616,11 +616,11 @@
 			}
 			else if (!checkKey(event.keyCode,currentKey)&&playing) 
 			{
+				playing = false;
 				resText.innerHTML="Incorrect";
 				details.innerHTML= "Press [space] to play again.";
 				overlay.style.visibility = "visible";
 				waiting = true;
-				playing = false;
 				
 			}
 
